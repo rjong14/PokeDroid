@@ -50,7 +50,7 @@ public class UserAdapter
     public void onBindViewHolder(final ListUserViewHolder holder, int position) {
         holder.setmUser(mValues.get(position));
         holder.setmEmailView(mValues.get(position).getLocal().getEmail());
-        holder.setmRoleView(mValues.get(position).getRole().getName());
+        holder.setmRoleView(mValues.get(position).getRole());
 
         holder.getmView().setOnClickListener(new View.OnClickListener() {
             @Override

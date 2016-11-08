@@ -18,7 +18,7 @@ public class User {
     private String id;
     @SerializedName("role")
     @Expose
-    private Role role;
+    private String role;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -32,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, Role role, Integer v, List<Pokemon> pokemon, Local local) {
+    public User(String id, String role, Integer v, List<Pokemon> pokemon, Local local) {
         this.id = id;
         this.role = role;
         this.v = v;
@@ -48,11 +48,11 @@ public class User {
         this.id = id;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

@@ -27,7 +27,7 @@ public class DummyUsers {
 
     private static User createUser(int position) {
         List<Pokemon> pokelist = new ArrayList<Pokemon>();
-        return new User(String.valueOf(position), new Role(String.valueOf(position), "Admin", 1), 1, pokelist, new Local("pass", "email" + position));
+        return new User(String.valueOf(position), "lolrole", 1, pokelist, new Local("pass", "email" + position));
     }
 
 }

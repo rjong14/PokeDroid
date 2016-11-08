@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         final TextView textView = (TextView) findViewById(R.id.textView);
         final Button btnGoUsers = (Button) findViewById(R.id.btnGoUsers);
 
+        // Temp Logout
+//        SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString("token_string", "");
+//        editor.commit();
+
         btnGoUsers.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent uIntent = new Intent(MainActivity.this, UserListActivity.class);

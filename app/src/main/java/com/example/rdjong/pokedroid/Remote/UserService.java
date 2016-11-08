@@ -1,9 +1,11 @@
 package com.example.rdjong.pokedroid.Remote;
 
 import com.example.rdjong.pokedroid.Model.User;
+import com.example.rdjong.pokedroid.Model.Users;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -16,13 +18,13 @@ import retrofit2.http.Path;
 public interface UserService {
     @GET("users")
     Call<List<User>> getUsers();
-
-    @GET("users/{id}")
-    Call<User> getUser(@Path("id") String id);
-
-    @POST("users")
-    Call<User> putUser(@Body User user);
-
-    @POST("users")
-    Call<User> postUser(@Body User user);
+//
+//    @GET("users/{id}")
+//    Call<User> getUser(@Path("id") String id);
+//
+//    @POST("users")
+//    Call<User> putUser(@Body User user);
+//
+//    @POST("users")
+//    Call<User> postUser(@Body User user);
 }

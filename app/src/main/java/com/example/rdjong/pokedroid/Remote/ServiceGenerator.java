@@ -42,6 +42,7 @@ public class ServiceGenerator {
     public static <S> S createService(Class<S> serviceClass, Token token) {
         if (token != null) {
             final String jwtToken = token.getToken();
+            Log.d("reqToken", jwtToken);
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {

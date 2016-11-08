@@ -50,7 +50,7 @@ public class UserDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Do a get call on users with the arg as id!!!!!!!!
             //mItem = DummyUsers.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-            mItem = new User("1", new Role("1", "Admin", 1), 1, new ArrayList<Pokemon>(), new Local("pass", "email" + 1));
+            mItem = new User("1", "lolRole", 1, new ArrayList<Pokemon>(), new Local("pass", "email" + 1));
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {

@@ -3,7 +3,9 @@ package com.example.rdjong.pokedroid;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,11 +22,20 @@ import android.view.ViewGroup;
 
 import com.example.rdjong.pokedroid.Adapter.UserAdapter;
 
+import com.example.rdjong.pokedroid.Model.Token;
 import com.example.rdjong.pokedroid.Model.User;
+import com.example.rdjong.pokedroid.Model.Users;
+import com.example.rdjong.pokedroid.Remote.ServiceGenerator;
+import com.example.rdjong.pokedroid.Remote.UserService;
 import com.example.rdjong.pokedroid.ViewHolder.ListUserViewHolder;
 import com.example.rdjong.pokedroid.dummy.DummyUsers;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * An activity representing a list of Users. This activity
@@ -41,6 +52,14 @@ public class UserListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+
+    private Token getToken(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String token_string = settings.getString("token_string", "");
+        Token myToken = new Token(token_string);
+
+        return myToken;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +79,94 @@ public class UserListActivity extends AppCompatActivity {
             }
         });
 
-        View recyclerView = findViewById(R.id.user_list);
-        assert recyclerView != null;
 
 
 
-        setupRecyclerView((RecyclerView) recyclerView);
+        final UserService userService = new ServiceGenerator().createService(UserService.class, getToken());
+        Call<List<User>> call = userService.getUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful()) {
+                    View recyclerView = findViewById(R.id.user_list);
+                    assert recyclerView != null;
+                    Log.d("resp","success");
+                    Log.d("resp", response.message());
+                    Log.d("resp", response.body().toString());
+                    Log.d("resp", response.toString());
+                    Log.d("resp", response.raw().toString());
+                    Log.d("resp", response.raw().body().toString());
+
+                    if(response.body() == null) {
+                        Log.d("resp", "dummyusers");
+                        //response.body().(DummyUsers.USERS);
+                    }
+                    Log.d("res", String.valueOf(response.body().size()));
+
+                    setupRecyclerView((RecyclerView) recyclerView, response.body());
+                } else {
+                    // parse the response body …
+                    // … and use it to show error information
+
+                    // … or just log the issue like we’re doing :)
+                    Log.d("error message", "500");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                // there is more than just a failing request (like: no internet connection)
+                Log.d("resp","fail");
+                Log.d("resp", call.toString());
+                Log.d("resp", t.getMessage());
+                t.getCause();
+
+            }
+        });
+
+
+
+        //        call.enqueue(new Callback<Users>() {
+//            @Override
+//            public void onResponse(Call<Users> call, Response<Users> response) {
+//                if (response.isSuccessful()) {
+//                    View recyclerView = findViewById(R.id.user_list);
+//                    assert recyclerView != null;
+//                    Log.d("resp","success");
+//                    Log.d("resp", response.message());
+//                    Log.d("resp", response.body().toString());
+//                    Log.d("resp", response.toString());
+//                    Log.d("resp", response.raw().toString());
+//                    Log.d("resp", response.raw().body().toString());
+//
+//                    if(response.body().getUsers() == null) {
+//                        Log.d("resp", "dummyusers");
+//                        response.body().setUsers(DummyUsers.USERS);
+//                    }
+//                    Log.d("res", String.valueOf(response.body().getUsers().size()));
+//
+//                    setupRecyclerView((RecyclerView) recyclerView, response.body().getUsers());
+//                } else {
+//                    // parse the response body …
+//                    // … and use it to show error information
+//
+//                    // … or just log the issue like we’re doing :)
+//                    Log.d("error message", "500");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Users> call, Throwable t) {
+//                // there is more than just a failing request (like: no internet connection)
+//                Log.d("resp","fail");
+//                Log.d("resp", call.toString());
+//                Log.d("resp", t.getMessage());
+//                t.getCause();
+//
+//            }
+//        });
+
+        //setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.user_detail_container) != null) {
             // The detail container view will be present only in the
@@ -76,13 +177,13 @@ public class UserListActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        FragmentManager fm = getSupportFragmentManager();
-        recyclerView.setAdapter(new UserAdapter(DummyUsers.USERS, mTwoPane, this));
+    private void setupRecyclerView(@NonNull final RecyclerView recyclerView, List<User> users) {
+
+        recyclerView.setAdapter(new UserAdapter(users, mTwoPane, this));
     }
 
-    public void doFragment(Fragment fragemnt){
-        getSupportFragmentManager().beginTransaction().replace(R.id.user_detail_container, fragemnt).commit();
-    }
+//    public void doFragment(Fragment fragemnt){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.user_detail_container, fragemnt).commit();
+//    }
 
 }
