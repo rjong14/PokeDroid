@@ -18,10 +18,10 @@ import retrofit2.http.Path;
 public interface UserService {
     @GET("users")
     Call<List<User>> getUsers();
-//
-//    @GET("users/{id}")
-//    Call<User> getUser(@Path("id") String id);
-//
+
+    @GET("users/{id}")
+    Call<User> getUser(@Path("id") String id);
+
 //    @POST("users")
 //    Call<User> putUser(@Body User user);
 //

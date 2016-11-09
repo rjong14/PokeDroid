@@ -124,50 +124,6 @@ public class UserListActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //        call.enqueue(new Callback<Users>() {
-//            @Override
-//            public void onResponse(Call<Users> call, Response<Users> response) {
-//                if (response.isSuccessful()) {
-//                    View recyclerView = findViewById(R.id.user_list);
-//                    assert recyclerView != null;
-//                    Log.d("resp","success");
-//                    Log.d("resp", response.message());
-//                    Log.d("resp", response.body().toString());
-//                    Log.d("resp", response.toString());
-//                    Log.d("resp", response.raw().toString());
-//                    Log.d("resp", response.raw().body().toString());
-//
-//                    if(response.body().getUsers() == null) {
-//                        Log.d("resp", "dummyusers");
-//                        response.body().setUsers(DummyUsers.USERS);
-//                    }
-//                    Log.d("res", String.valueOf(response.body().getUsers().size()));
-//
-//                    setupRecyclerView((RecyclerView) recyclerView, response.body().getUsers());
-//                } else {
-//                    // parse the response body …
-//                    // … and use it to show error information
-//
-//                    // … or just log the issue like we’re doing :)
-//                    Log.d("error message", "500");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Users> call, Throwable t) {
-//                // there is more than just a failing request (like: no internet connection)
-//                Log.d("resp","fail");
-//                Log.d("resp", call.toString());
-//                Log.d("resp", t.getMessage());
-//                t.getCause();
-//
-//            }
-//        });
-
-        //setupRecyclerView((RecyclerView) recyclerView);
-
         if (findViewById(R.id.user_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).

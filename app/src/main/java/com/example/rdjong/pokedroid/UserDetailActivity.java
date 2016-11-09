@@ -1,7 +1,9 @@
 package com.example.rdjong.pokedroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.example.rdjong.pokedroid.Model.Token;
+
 /**
  * An activity representing a single User detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
@@ -17,6 +21,14 @@ import android.view.MenuItem;
  * in a {@link UserListActivity}.
  */
 public class UserDetailActivity extends AppCompatActivity {
+
+    private Token getToken(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String token_string = settings.getString("token_string", "");
+        Token myToken = new Token(token_string);
+
+        return myToken;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,8 @@ public class UserDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(UserDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(UserDetailFragment.ARG_ITEM_ID));
+            arguments.putString(UserDetailFragment.ARG_TOKEN,
+                    getIntent().getStringExtra(UserDetailFragment.ARG_TOKEN));
             UserDetailFragment fragment = new UserDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

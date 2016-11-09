@@ -3,8 +3,10 @@ package com.example.rdjong.pokedroid.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rdjong.pokedroid.Model.Token;
 import com.example.rdjong.pokedroid.UserListActivity;
 import com.example.rdjong.pokedroid.ViewHolder.ListUserViewHolder;
 import com.example.rdjong.pokedroid.Model.User;
@@ -31,6 +34,15 @@ public class UserAdapter
     private boolean mTwoPane;
     private Context context;
     View view;
+
+
+    private Token getToken(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(((UserListActivity)context).getApplicationContext());
+        String token_string = settings.getString("token_string", "");
+        Token myToken = new Token(token_string);
+
+        return myToken;
+    }
 
     public UserAdapter(List<User> users, boolean mTwoPane, Context context) {
         mValues = users;
@@ -64,6 +76,7 @@ public class UserAdapter
 
                     Bundle arguments = new Bundle();
                     arguments.putString(UserDetailFragment.ARG_ITEM_ID, holder.getmUser().getId());
+                    arguments.putString(UserDetailFragment.ARG_TOKEN, getToken().getToken());
                     UserDetailFragment fragment = new UserDetailFragment();
                     fragment.setArguments(arguments);
                     ((UserListActivity)context).getSupportFragmentManager()
@@ -74,6 +87,7 @@ public class UserAdapter
                     Context context = v.getContext();
                     Intent intent = new Intent(context, UserDetailActivity.class);
                     intent.putExtra(UserDetailFragment.ARG_ITEM_ID, holder.getmUser().getId());
+                    intent.putExtra(UserDetailFragment.ARG_TOKEN, getToken().getToken());
 
                     context.startActivity(intent);
                 }
