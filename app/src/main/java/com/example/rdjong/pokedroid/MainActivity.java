@@ -7,10 +7,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
 
 import com.example.rdjong.pokedroid.Model.Token;
 
@@ -21,9 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private Token getToken(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String token_string = settings.getString("token_string", "");
-        Token myToken = new Token(token_string);
 
-        return myToken;
+        return new Token(token_string);
     }
 
     @Override
@@ -33,12 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Token token = getToken();
         final TextView textView = (TextView) findViewById(R.id.textView);
         final Button btnGoUsers = (Button) findViewById(R.id.btnGoUsers);
-
-        // Temp Logout
-//        SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        SharedPreferences.Editor editor = settings.edit();
-//        editor.putString("token_string", "");
-//        editor.commit();
+        final Button btnlogout = (Button) findViewById(R.id.btn_logout);
 
         btnGoUsers.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -46,13 +40,23 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(uIntent);
             }
         });
-
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("token_string", "");
+                editor.commit();
+                finish();
+            }
+        });
+        Log.d("main", "main");
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-        if(token.getToken() == "") {
+        if(token.getToken().equals("")) {
             MainActivity.this.startActivity(loginIntent);
             finish();
         } else{
-            textView.append(token.getToken());
+            textView.setText("You are logged in");
         }
     }
+
 }

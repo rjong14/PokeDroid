@@ -1,4 +1,4 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_detail"
     style="?android:attr/textAppearanceLarge"
@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:textIsSelectable="true"
-    tools:context="com.example.rdjong.pokedroid.UserDetailFragment" />
+    tools:context="com.example.rdjong.pokedroid.UserDetailFragment" >
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:id="@+id/ud_et_email"
+        android:hint="@string/prompt_email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_below="@+id/ud_et_email"
+        android:layout_alignStart="@+id/ud_et_email"
+        android:layout_marginTop="20dp"
+        android:id="@+id/ud_et_password"
+        android:hint="@string/prompt_password" />
+
+    <Button
+        android:text="@string/action_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ud_et_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:id="@+id/ud_btn_save" />
+</RelativeLayout>

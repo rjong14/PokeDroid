@@ -1,5 +1,9 @@
 package com.example.rdjong.pokedroid;
 
+/**
+ * Created by rdjong on 24-10-16.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +33,13 @@ public class LoginActivity extends AppCompatActivity {
 
     String Token;
 
+    private void setToken(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("token_string", Token);
+        editor.commit();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +59,19 @@ public class LoginActivity extends AppCompatActivity {
                 final Token notaToken = new Token("lol");
                 final LoginService loginService = ServiceGenerator.createService(LoginService.class, notaToken);
                 final Me me = new Me(email, password);
+                final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Call<Token> call = loginService.createMe(me);
                 call.enqueue(new Callback<Token>() {
                     @Override
                     public void onResponse(Call<Token> call, Response<Token> response) {
                         if (response.isSuccessful()) {
-                            Log.d("lol", response.toString());
-                            Log.d("lol", response.message());
-                            Log.d("lol", response.body().getToken());
-                            Log.d("lol", response.headers().toString());
-                            Log.d("lol", response.raw().toString());
                             Token = response.body().getToken();
-                            CharSequence text = Token + "\n" + "success";
+                            CharSequence text = "Logged in" + "\n" + "success";
                             Toast toast = Toast.makeText(context, text, duration);
                             toast.show();
+                            setToken();
+                            startActivity(intent);
+                            finish();
                         } else {
                             CharSequence text = email + ":" + password + "\n" + "404";
                             Toast toast = Toast.makeText(context, text, duration);
@@ -78,21 +88,9 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Error", t.getMessage());
                     }
                 });
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+
             }
         });
 
-    }
-    @Override
-    protected void onStop(){
-        super.onStop();
-
-        SharedPreferences  settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("token_string", Token);
-        editor.commit();
-;
     }
 }

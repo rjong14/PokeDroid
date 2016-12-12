@@ -31,8 +31,15 @@ public class ListUserViewHolder extends RecyclerView.ViewHolder {
         return mRoleView;
     }
 
-    public void setmRoleView(String text){
-        this.mRoleView.setText(text);
+    public void setmRoleView(String text)
+    {
+        String roletxt = "";
+        if(text.equals("56f1c852b40dfc085518788b")){
+            roletxt = "admin";
+        }else{
+            roletxt = "user";
+        }
+        this.mRoleView.setText(roletxt);
     }
 
     public TextView getmEmailView() {
