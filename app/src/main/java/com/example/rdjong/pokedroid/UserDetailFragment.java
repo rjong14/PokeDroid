@@ -67,14 +67,14 @@ public class UserDetailFragment extends Fragment {
         }
     }
 
-    private void putUser(String e, String p, Activity activity) {
+    private void putUser(String e, String p, Activity activity) {;
         final Activity act = activity;
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             final UserService userService = new ServiceGenerator().createService(UserService.class, new Token(getArguments().getString(ARG_TOKEN)));
 
             Call<User> call = null;
             if (e != null && !e.equals("") && p != null && !p.equals("")) {
-                Log.d("put", e + ":" + p);
+                Log.d("put 1", e + ":" + p);
                 PutUser user = new PutUser(e,p);
                 Log.d("put", user.getEmail() + ":" + p);
                 call = userService.putUser(getArguments().getString(ARG_ITEM_ID), user);
